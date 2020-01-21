@@ -1,0 +1,8 @@
+prefix=/home/tthmatt/Omron_MoMa_ROS/devel/.private/moma
+
+Name: moma
+Description: Description of moma
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/tthmatt/Omron_MoMa_ROS/devel/.private/moma/lib 
+Requires: 
