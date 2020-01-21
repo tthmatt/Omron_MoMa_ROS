@@ -74,8 +74,6 @@ def call_server():
 def call_ld_server():
     client = actionlib.SimpleActionClient('goTo', ActionAction)
     client.wait_for_server()
-    goal = ActionGoal()
-    goal.goal_goal = "Goal1"
     client.send_goal(goal, feedback_cb=feedback_cb)
     client.wait_for_result()
     result = client.get_result()
@@ -84,6 +82,8 @@ def call_ld_server():
 if __name__ == "__main__":
     rospy.init_node('moma')
     try:
+        goal = ActionGoal()
+        goal.goal_goal = "Goal1"
         result = call_ld_server()
         print 'The result is:', result
         print "ld moved to pickup location"
@@ -147,6 +147,7 @@ if __name__ == "__main__":
     release()
     stop_program()
 
+    from tm_motion.msg import ActionAction, ActionGoal
     try:
         goal = ActionGoal()
         goal.goal_goal1 = trans.transform.translation.x
@@ -179,7 +180,17 @@ if __name__ == "__main__":
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
 
-    time.sleep(1)
+    from om_aiv_navigation.msg import ActionAction, ActionGoal
+    try:
+        goal = ActionGoal()
+        goal.goal_goal = "Goal2"
+        result = call_ld_server()
+        print 'The result is:', result
+        print "ld moved to dropoff location"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
     print "scanning for tm landmark location"
     print landmark_location_service_client()
     rate = rospy.Rate(10.0)
@@ -246,7 +257,7 @@ if __name__ == "__main__":
         print "moved to dropoff location"
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
-        
+
     start_program()
     release()
     stop_program()
