@@ -47,7 +47,7 @@ def release():
     #open gripper
     print "opening gripper"
     status = client.write_coil(0001, True, unit=1)
-    time.sleep(0.5)
+    time.sleep(1)
 
 def landmark_location_service_client():
     global nc
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     landmark_to_obj.child_frame_id = "object_location"
     landmark_to_obj.transform.translation.x = 100
     landmark_to_obj.transform.translation.y = 0
-    landmark_to_obj.transform.translation.z = -350
+    landmark_to_obj.transform.translation.z = -300
     quat = tf.transformations.quaternion_from_euler(
                0,0,-math.pi)
     landmark_to_obj.transform.rotation.x = quat[0]
@@ -165,6 +165,7 @@ if __name__ == "__main__":
     print Rz
 
     start_program()
+    time.sleep(1)
     release()
     stop_program()
 
@@ -267,7 +268,7 @@ if __name__ == "__main__":
     landmark_to_obj.child_frame_id = "place_location"
     landmark_to_obj.transform.translation.x = 100
     landmark_to_obj.transform.translation.y = 0
-    landmark_to_obj.transform.translation.z = -350
+    landmark_to_obj.transform.translation.z = -300
     quat = tf.transformations.quaternion_from_euler(
                0,0,-math.pi)
     landmark_to_obj.transform.rotation.x = quat[0]
@@ -317,3 +318,17 @@ if __name__ == "__main__":
     start_program()
     release()
     stop_program()
+
+    print "tm moving to home postion"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 191.08
+        goal.goal_goal2 = 223.33
+        goal.goal_goal3 = 400.54
+        goal.goal_goal4 = -178.77
+        goal.goal_goal5 = 1.46
+        goal.goal_goal6 = 131.84
+        result = call_server()
+        print 'The result is:', result
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
