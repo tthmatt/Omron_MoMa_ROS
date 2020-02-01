@@ -83,10 +83,31 @@ if __name__ == "__main__":
     rospy.init_node('moma')
     try:
         goal = ActionGoal()
-        goal.goal_goal = "Goal1"
+        goal.goal_goal = "pickup"
         result = call_ld_server()
         print 'The result is:', result
         print "ld moved to pickup location"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm moving to pick location to scan tm landmark"
+    try:
+        goal = ActionGoal()
+        # goal.goal_goal1 = float(values[0])
+        # goal.goal_goal2 = float(values[1])
+        # goal.goal_goal3 = float(values[2])
+        # goal.goal_goal4 = float(values[3])
+        # goal.goal_goal5 = float(values[4])
+        # goal.goal_goal6 = float(values[5])
+        goal.goal_goal1 = 435.97
+        goal.goal_goal2 = 558.14
+        goal.goal_goal3 = 534.29
+        goal.goal_goal4 = -179.20
+        goal.goal_goal5 = 1.59
+        goal.goal_goal6 = 124.37
+        result = call_server()
+        print 'The result is:', result
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
 
@@ -180,13 +201,48 @@ if __name__ == "__main__":
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
 
+    print "tm moving to home postion"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 191.08
+        goal.goal_goal2 = 223.33
+        goal.goal_goal3 = 400.54
+        goal.goal_goal4 = -178.77
+        goal.goal_goal5 = 1.46
+        goal.goal_goal6 = 131.84
+        result = call_server()
+        print 'The result is:', result
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
     from om_aiv_navigation.msg import ActionAction, ActionGoal
     try:
         goal = ActionGoal()
-        goal.goal_goal = "Goal2"
+        goal.goal_goal = "dropoff"
         result = call_ld_server()
         print 'The result is:', result
         print "ld moved to dropoff location"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "TM moving to location to scan tm landmark for dropoff"
+    try:
+        goal = ActionGoal()
+        # goal.goal_goal1 = float(values3[0])
+        # goal.goal_goal2 = float(values3[1])
+        # goal.goal_goal3 = float(values3[2])
+        # goal.goal_goal4 = float(values3[3])
+        # goal.goal_goal5 = float(values3[4])
+        # goal.goal_goal6 = float(values3[5])
+        goal.goal_goal1 = 343.51
+        goal.goal_goal2 = 502.13
+        goal.goal_goal3 = 580.12
+        goal.goal_goal4 = 179.80
+        goal.goal_goal5 = -2.56
+        goal.goal_goal6 = 134.55
+        result = call_server()
+        print 'The result is:', result
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
 
