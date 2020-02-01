@@ -268,7 +268,7 @@ if __name__ == "__main__":
     landmark_to_obj.child_frame_id = "place_location"
     landmark_to_obj.transform.translation.x = 100
     landmark_to_obj.transform.translation.y = 0
-    landmark_to_obj.transform.translation.z = -300
+    landmark_to_obj.transform.translation.z = -280
     quat = tf.transformations.quaternion_from_euler(
                0,0,-math.pi)
     landmark_to_obj.transform.rotation.x = quat[0]
