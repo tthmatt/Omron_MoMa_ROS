@@ -100,12 +100,12 @@ if __name__ == "__main__":
         # goal.goal_goal4 = float(values[3])
         # goal.goal_goal5 = float(values[4])
         # goal.goal_goal6 = float(values[5])
-        goal.goal_goal1 = 435.97
-        goal.goal_goal2 = 558.14
-        goal.goal_goal3 = 534.29
-        goal.goal_goal4 = -179.20
-        goal.goal_goal5 = 1.59
-        goal.goal_goal6 = 124.37
+        goal.goal_goal1 = 431.48
+        goal.goal_goal2 = 414.43
+        goal.goal_goal3 = 349.58
+        goal.goal_goal4 = -179.57
+        goal.goal_goal5 = -0.38
+        goal.goal_goal6 = 136.14
         result = call_server()
         print 'The result is:', result
     except rospy.ROSInterruptException as e:
@@ -174,6 +174,20 @@ if __name__ == "__main__":
         goal = ActionGoal()
         goal.goal_goal1 = trans.transform.translation.x
         goal.goal_goal2 = trans.transform.translation.y
+        goal.goal_goal3 = trans.transform.translation.z +100
+        goal.goal_goal4 = Rx
+        goal.goal_goal5 = Ry
+        goal.goal_goal6 = Rz
+        result = call_server()
+        print 'The result is:', result
+        print "moved to top of pickup location"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = trans.transform.translation.x
+        goal.goal_goal2 = trans.transform.translation.y
         goal.goal_goal3 = trans.transform.translation.z
         goal.goal_goal4 = Rx
         goal.goal_goal5 = Ry
@@ -185,6 +199,7 @@ if __name__ == "__main__":
         print 'Something went wrong:', e
 
     start_program()
+    time.sleep(1)
     grip()
     print "gripped object"
     stop_program()
@@ -202,15 +217,48 @@ if __name__ == "__main__":
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
 
-    print "tm moving to home postion"
+    # print "tm moving to home postion"
+    # try:
+    #     goal = ActionGoal()
+    #     goal.goal_goal1 = 191.08
+    #     goal.goal_goal2 = 223.33
+    #     goal.goal_goal3 = 400.54
+    #     goal.goal_goal4 = -178.77
+    #     goal.goal_goal5 = 1.46
+    #     goal.goal_goal6 = 131.84
+    #     result = call_server()
+    #     print 'The result is:', result
+    # except rospy.ROSInterruptException as e:
+    #     print 'Something went wrong:', e
+
+    print "tm moving to postion to place object on moma"
     try:
         goal = ActionGoal()
-        goal.goal_goal1 = 191.08
-        goal.goal_goal2 = 223.33
-        goal.goal_goal3 = 400.54
-        goal.goal_goal4 = -178.77
-        goal.goal_goal5 = 1.46
-        goal.goal_goal6 = 131.84
+        goal.goal_goal1 = 64.25
+        goal.goal_goal2 = 266.76
+        goal.goal_goal3 = 266.57
+        goal.goal_goal4 = -179.71
+        goal.goal_goal5 = -0.90
+        goal.goal_goal6 = 135.55
+        result = call_server()
+        print 'The result is:', result
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    start_program()
+    time.sleep(1)
+    release()
+    stop_program()
+
+    print "tm moving to safe position"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 28.11
+        goal.goal_goal2 = 268.09
+        goal.goal_goal3 = 357.99
+        goal.goal_goal4 = 114.94
+        goal.goal_goal5 = 78.09
+        goal.goal_goal6 = 92.66
         result = call_server()
         print 'The result is:', result
     except rospy.ROSInterruptException as e:
