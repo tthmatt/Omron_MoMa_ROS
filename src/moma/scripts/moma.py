@@ -20,7 +20,7 @@ def start_program():
     print "starting program"
     status = client.write_coil(7104, True, unit=1)
     print(status)
-    time.sleep(5)
+    time.sleep(6)
 
 def stop_program():
     print "stopping program"
@@ -81,6 +81,7 @@ def call_ld_server():
 
 if __name__ == "__main__":
     rospy.init_node('moma')
+    print "REMEMBER TO PUT TM ARM IN SAFE POSITION"
     # try:
     #     goal = ActionGoal()
     #     goal.goal_goal = "pickup"
@@ -90,6 +91,7 @@ if __name__ == "__main__":
     # except rospy.ROSInterruptException as e:
     #     print 'Something went wrong:', e
 
+    start_program()
     from tm_motion.msg import ActionAction, ActionGoal
     print "tm moving to pick location to scan tm landmark"
     try:
@@ -129,9 +131,9 @@ if __name__ == "__main__":
     landmark_to_obj.header.stamp = rospy.Time.now()
     landmark_to_obj.header.frame_id = "landmark_location"
     landmark_to_obj.child_frame_id = "object_location"
-    landmark_to_obj.transform.translation.x = 0
+    landmark_to_obj.transform.translation.x = 35
     landmark_to_obj.transform.translation.y = 0 #move 200y axis back from tm landmark
-    landmark_to_obj.transform.translation.z = 0
+    landmark_to_obj.transform.translation.z = -200
     quat = tf.transformations.quaternion_from_euler(
                0,0,0)
     landmark_to_obj.transform.rotation.x = quat[0]
@@ -207,14 +209,18 @@ if __name__ == "__main__":
         print 'Something went wrong:', e
 
     from tm_motion.msg import ActionAction, ActionGoal
+    print "tm moving to pick object"
     try:
         goal = ActionGoal()
         goal.goal_goal1 = trans.transform.translation.x
-        goal.goal_goal2 = trans.transform.translation.y-200
-        goal.goal_goal3 = trans.transform.translation.z+100
-        goal.goal_goal4 = Rx
-        goal.goal_goal5 = Ry
-        goal.goal_goal6 = Rz
+        goal.goal_goal2 = trans.transform.translation.y
+        goal.goal_goal3 = trans.transform.translation.z
+        # goal.goal_goal4 = Rx
+        # goal.goal_goal5 = Ry
+        # goal.goal_goal6 = Rz
+        goal.goal_goal4 = 179.40
+        goal.goal_goal5 = -2.49
+        goal.goal_goal6 = -40.45
         result = call_server()
         print 'The result is:', result
         print "moved to position to pick object"
