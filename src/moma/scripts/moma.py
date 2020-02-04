@@ -81,14 +81,14 @@ def call_ld_server():
 
 if __name__ == "__main__":
     rospy.init_node('moma')
-    try:
-        goal = ActionGoal()
-        goal.goal_goal = "pickup"
-        result = call_ld_server()
-        print 'The result is:', result
-        print "ld moved to pickup location"
-    except rospy.ROSInterruptException as e:
-        print 'Something went wrong:', e
+    # try:
+    #     goal = ActionGoal()
+    #     goal.goal_goal = "pickup"
+    #     result = call_ld_server()
+    #     print 'The result is:', result
+    #     print "ld moved to pickup location"
+    # except rospy.ROSInterruptException as e:
+    #     print 'Something went wrong:', e
 
     from tm_motion.msg import ActionAction, ActionGoal
     print "tm moving to pick location to scan tm landmark"
@@ -100,12 +100,12 @@ if __name__ == "__main__":
         # goal.goal_goal4 = float(values[3])
         # goal.goal_goal5 = float(values[4])
         # goal.goal_goal6 = float(values[5])
-        goal.goal_goal1 = 431.48
-        goal.goal_goal2 = 414.43
-        goal.goal_goal3 = 349.58
-        goal.goal_goal4 = -179.57
-        goal.goal_goal5 = -0.38
-        goal.goal_goal6 = 136.14
+        goal.goal_goal1 = 440.52
+        goal.goal_goal2 = 362.69
+        goal.goal_goal3 = 706.25
+        goal.goal_goal4 = 178.59
+        goal.goal_goal5 = 0.93
+        goal.goal_goal6 = 135.04
         result = call_server()
         print 'The result is:', result
     except rospy.ROSInterruptException as e:
@@ -129,11 +129,11 @@ if __name__ == "__main__":
     landmark_to_obj.header.stamp = rospy.Time.now()
     landmark_to_obj.header.frame_id = "landmark_location"
     landmark_to_obj.child_frame_id = "object_location"
-    landmark_to_obj.transform.translation.x = 100
-    landmark_to_obj.transform.translation.y = 0
-    landmark_to_obj.transform.translation.z = -300
+    landmark_to_obj.transform.translation.x = 0
+    landmark_to_obj.transform.translation.y = 0 #move 200y axis back from tm landmark
+    landmark_to_obj.transform.translation.z = 0
     quat = tf.transformations.quaternion_from_euler(
-               0,0,-math.pi)
+               0,0,0)
     landmark_to_obj.transform.rotation.x = quat[0]
     landmark_to_obj.transform.rotation.y = quat[1]
     landmark_to_obj.transform.rotation.z = quat[2]
@@ -164,25 +164,64 @@ if __name__ == "__main__":
     print Ry
     print Rz
 
-    start_program()
-    time.sleep(1)
-    release()
-    stop_program()
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm moving to safe postion to rotate arm"
+    try:
+        goal = ActionGoal()
+        # goal.goal_goal1 = float(values[0])
+        # goal.goal_goal2 = float(values[1])
+        # goal.goal_goal3 = float(values[2])
+        # goal.goal_goal4 = float(values[3])
+        # goal.goal_goal5 = float(values[4])
+        # goal.goal_goal6 = float(values[5])
+        goal.goal_goal1 = 318.56
+        goal.goal_goal2 = 182.78
+        goal.goal_goal3 = 577.43
+        goal.goal_goal4 = -179.14
+        goal.goal_goal5 = 2.53
+        goal.goal_goal6 = 139.78
+        result = call_server()
+        print 'The result is:', result
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm rotating arm"
+    try:
+        goal = ActionGoal()
+        # goal.goal_goal1 = float(values[0])
+        # goal.goal_goal2 = float(values[1])
+        # goal.goal_goal3 = float(values[2])
+        # goal.goal_goal4 = float(values[3])
+        # goal.goal_goal5 = float(values[4])
+        # goal.goal_goal6 = float(values[5])
+        goal.goal_goal1 = 194.16
+        goal.goal_goal2 = 66.05
+        goal.goal_goal3 = 683.99
+        goal.goal_goal4 = 179.40
+        goal.goal_goal5 = -2.49
+        goal.goal_goal6 = -40.45
+        result = call_server()
+        print 'The result is:', result
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
 
     from tm_motion.msg import ActionAction, ActionGoal
     try:
         goal = ActionGoal()
         goal.goal_goal1 = trans.transform.translation.x
-        goal.goal_goal2 = trans.transform.translation.y
-        goal.goal_goal3 = trans.transform.translation.z +100
+        goal.goal_goal2 = trans.transform.translation.y-200
+        goal.goal_goal3 = trans.transform.translation.z+100
         goal.goal_goal4 = Rx
         goal.goal_goal5 = Ry
         goal.goal_goal6 = Rz
         result = call_server()
         print 'The result is:', result
-        print "moved to top of pickup location"
+        print "moved to position to pick object"
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
+
+    exit(0)
 
     try:
         goal = ActionGoal()
