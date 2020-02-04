@@ -131,8 +131,8 @@ if __name__ == "__main__":
     landmark_to_obj.header.stamp = rospy.Time.now()
     landmark_to_obj.header.frame_id = "landmark_location"
     landmark_to_obj.child_frame_id = "object_location"
-    landmark_to_obj.transform.translation.x = 35
-    landmark_to_obj.transform.translation.y = 0 #move 200y axis back from tm landmark
+    landmark_to_obj.transform.translation.x = 10
+    landmark_to_obj.transform.translation.y = 50 #move 200y axis back from tm landmark
     landmark_to_obj.transform.translation.z = -200
     quat = tf.transformations.quaternion_from_euler(
                0,0,0)
@@ -215,12 +215,9 @@ if __name__ == "__main__":
         goal.goal_goal1 = trans.transform.translation.x
         goal.goal_goal2 = trans.transform.translation.y
         goal.goal_goal3 = trans.transform.translation.z
-        # goal.goal_goal4 = Rx
-        # goal.goal_goal5 = Ry
-        # goal.goal_goal6 = Rz
-        goal.goal_goal4 = 179.40
-        goal.goal_goal5 = -2.49
-        goal.goal_goal6 = -40.45
+        goal.goal_goal4 = Rx
+        goal.goal_goal5 = Ry
+        goal.goal_goal6 = Rz
         result = call_server()
         print 'The result is:', result
         print "moved to position to pick object"
