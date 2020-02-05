@@ -414,3 +414,35 @@ if __name__ == "__main__":
         print "pick object"
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm rotating to place object on ld"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 222.48
+        goal.goal_goal2 = 223.86
+        goal.goal_goal3 = 707.08
+        goal.goal_goal4 = 178.39
+        goal.goal_goal5 = -0.56
+        goal.goal_goal6 = 43.48
+        result = call_server()
+        print 'The result is:', result
+        print "pick object"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm placing object on ld"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 287.79
+        goal.goal_goal2 = 128.34
+        goal.goal_goal3 = 300.88
+        goal.goal_goal4 = 179.07
+        goal.goal_goal5 = -0.26
+        goal.goal_goal6 = 43.70
+        result = call_server()
+        print 'The result is:', result
+        print "pick object"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
