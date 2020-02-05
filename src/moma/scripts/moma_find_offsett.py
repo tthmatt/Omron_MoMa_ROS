@@ -119,11 +119,11 @@ if __name__ == "__main__":
     entry_to_pod.header.stamp = rospy.Time.now()
     entry_to_pod.header.frame_id = "base_link"
     entry_to_pod.child_frame_id = "object_location"
-    entry_to_pod.transform.translation.x = 419.67
-    entry_to_pod.transform.translation.y = 460.16
-    entry_to_pod.transform.translation.z = 680.94
+    entry_to_pod.transform.translation.x = 273.51
+    entry_to_pod.transform.translation.y = 295.19
+    entry_to_pod.transform.translation.z = 647.21
     quat = tf.transformations.quaternion_from_euler(
-               -178.26,-1.37,-46.13)
+               179.11,-2.44,-41.33)
     entry_to_pod.transform.rotation.x = quat[0]
     entry_to_pod.transform.rotation.y = quat[1]
     entry_to_pod.transform.rotation.z = quat[2]
