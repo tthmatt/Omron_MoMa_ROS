@@ -125,7 +125,7 @@ if __name__ == "__main__":
     # quat = tf.transformations.quaternion_from_euler(
     #            86.1037342411,85.5429655101,-74.7943630375+360)
     quat = tf.transformations.quaternion_from_euler(
-               0,0,-math.pi)
+               0,0,0)
     landmark_to_obj.transform.rotation.x = quat[0]
     landmark_to_obj.transform.rotation.y = quat[1]
     landmark_to_obj.transform.rotation.z = quat[2]
@@ -208,12 +208,70 @@ if __name__ == "__main__":
         goal.goal_goal1 = trans.transform.translation.x
         goal.goal_goal2 = trans.transform.translation.y
         goal.goal_goal3 = trans.transform.translation.z
-        # goal.goal_goal4 = Rx
-        # goal.goal_goal5 = Ry
-        # goal.goal_goal6 = Rz
-        goal.goal_goal4 = 179.91
-        goal.goal_goal5 = -1.50
-        goal.goal_goal6 = -42.80
+        goal.goal_goal4 = Rx
+        goal.goal_goal5 = Ry
+        goal.goal_goal6 = Rz
+        # goal.goal_goal4 = 179.91
+        # goal.goal_goal5 = -1.50
+        # goal.goal_goal6 = -42.80
+        result = call_server()
+        print 'The result is:', result
+        print "moved to position to pick object"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    broadcaster2 = tf2_ros.StaticTransformBroadcaster()
+    landmark_to_obj2 = geometry_msgs.msg.TransformStamped()
+    landmark_to_obj2.header.stamp = rospy.Time.now()
+    landmark_to_obj2.header.frame_id = "landmark_location"
+    landmark_to_obj2.child_frame_id = "object_location2"
+    landmark_to_obj2.transform.translation.x = 4.03280438649
+    landmark_to_obj2.transform.translation.y = 55.8159889412
+    landmark_to_obj2.transform.translation.z = -261.548106794
+    # quat = tf.transformations.quaternion_from_euler(
+    #            86.1037342411,85.5429655101,-74.7943630375+360)
+    quat = tf.transformations.quaternion_from_euler(
+               0,0,0)
+    landmark_to_obj2.transform.rotation.x = quat[0]
+    landmark_to_obj2.transform.rotation.y = quat[1]
+    landmark_to_obj2.transform.rotation.z = quat[2]
+    landmark_to_obj2.transform.rotation.w = quat[3]
+    broadcaster2.sendTransform(landmark_to_obj2)
+    while not rospy.is_shutdown():
+        try:
+            trans = tfBuffer.lookup_transform('base_link', 'object_location2', rospy.Time())
+            print "object_location wrt base_link:"
+            print trans.transform
+            break
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+            rate.sleep()
+            continue
+    quaternion = (
+    trans.transform.rotation.x,
+    trans.transform.rotation.y,
+    trans.transform.rotation.z,
+    trans.transform.rotation.w)
+    euler = tf.transformations.euler_from_quaternion(quaternion)
+    Rx = math.degrees(euler[0])
+    Ry = math.degrees(euler[1])
+    Rz = math.degrees(euler[2])
+    print trans.transform.translation.x
+    print trans.transform.translation.y
+    print trans.transform.translation.z
+    print Rx
+    print Ry
+    print Rz
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm moving in to pick object"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = trans.transform.translation.x
+        goal.goal_goal2 = trans.transform.translation.y
+        goal.goal_goal3 = trans.transform.translation.z
+        goal.goal_goal4 = Rx
+        goal.goal_goal5 = Ry
+        goal.goal_goal6 = Rz
         result = call_server()
         print 'The result is:', result
         print "moved to position to pick object"
