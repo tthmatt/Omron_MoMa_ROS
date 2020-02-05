@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import sys
 import rospy
+import socket
 import time
 from tm_motion.srv import *
 import actionlib
@@ -82,7 +83,6 @@ def call_ld_server():
 if __name__ == "__main__":
     rospy.init_node('moma')
     print "REMEMBER TO PUT TM ARM IN SAFE POSITION"
-
     start_program()
     from tm_motion.msg import ActionAction, ActionGoal
     print "tm moving to pick location to scan tm landmark"
@@ -294,7 +294,7 @@ if __name__ == "__main__":
     obj2_to_obj3.child_frame_id = "object_location3"
     obj2_to_obj3.transform.translation.x = 0
     obj2_to_obj3.transform.translation.y = -180
-    obj2_to_obj3.transform.translation.z = -60
+    obj2_to_obj3.transform.translation.z = -70
     # quat = tf.transformations.quaternion_from_euler(
     #            86.1037342411,85.5429655101,-74.7943630375+360)
     quat = tf.transformations.quaternion_from_euler(
@@ -339,6 +339,70 @@ if __name__ == "__main__":
         goal.goal_goal1 = trans3.transform.translation.x
         goal.goal_goal2 = trans3.transform.translation.y
         goal.goal_goal3 = trans3.transform.translation.z
+        goal.goal_goal4 = Rx
+        goal.goal_goal5 = Ry
+        goal.goal_goal6 = Rz
+        # goal.goal_goal4 = 179.91
+        # goal.goal_goal5 = -1.50
+        # goal.goal_goal6 = -42.80
+        result = call_server()
+        print 'The result is:', result
+        print "pick object"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    broadcaster4 = tf2_ros.StaticTransformBroadcaster()
+    obj2_to_obj3 = geometry_msgs.msg.TransformStamped()
+    obj2_to_obj3.header.stamp = rospy.Time.now()
+    obj2_to_obj3.header.frame_id = "object_location"
+    obj2_to_obj3.child_frame_id = "object_location4"
+    obj2_to_obj3.transform.translation.x = -100
+    obj2_to_obj3.transform.translation.y = -180
+    obj2_to_obj3.transform.translation.z = -70
+    # quat = tf.transformations.quaternion_from_euler(
+    #            86.1037342411,85.5429655101,-74.7943630375+360)
+    quat = tf.transformations.quaternion_from_euler(
+               0,0,0)
+    obj2_to_obj3.transform.rotation.x = quat[0]
+    obj2_to_obj3.transform.rotation.y = quat[1]
+    obj2_to_obj3.transform.rotation.z = quat[2]
+    obj2_to_obj3.transform.rotation.w = quat[3]
+    broadcaster4.sendTransform(obj2_to_obj3)
+
+    while not rospy.is_shutdown():
+        try:
+            trans4 = tfBuffer.lookup_transform('base_link', 'object_location4', rospy.Time())
+            print "object_location4 wrt base_link:"
+            print trans4.transform
+            break
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
+            rate.sleep()
+            print e
+            print "waiting2"
+            continue
+    quaternion = (
+    trans4.transform.rotation.x,
+    trans4.transform.rotation.y,
+    trans4.transform.rotation.z,
+    trans4.transform.rotation.w)
+    euler = tf.transformations.euler_from_quaternion(quaternion)
+    Rx = math.degrees(euler[0])
+    Ry = math.degrees(euler[1])
+    Rz = math.degrees(euler[2])
+    print trans4.transform.translation.x
+    print trans4.transform.translation.y
+    print trans4.transform.translation.z
+    print Rx
+    print Ry
+    print Rz
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm moving out to place object on ld"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = trans4.transform.translation.x
+        goal.goal_goal2 = trans4.transform.translation.y
+        goal.goal_goal3 = trans4.transform.translation.z
         goal.goal_goal4 = Rx
         goal.goal_goal5 = Ry
         goal.goal_goal6 = Rz
