@@ -432,6 +432,22 @@ if __name__ == "__main__":
         print 'Something went wrong:', e
 
     from tm_motion.msg import ActionAction, ActionGoal
+    print "tm align object on ld"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 288.33
+        goal.goal_goal2 = 131.60
+        goal.goal_goal3 = 332.66
+        goal.goal_goal4 = 179.44
+        goal.goal_goal5 = -0.15
+        goal.goal_goal6 = 44.52
+        result = call_server()
+        print 'The result is:', result
+        print "pick object"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
     print "tm placing object on ld"
     try:
         goal = ActionGoal()
