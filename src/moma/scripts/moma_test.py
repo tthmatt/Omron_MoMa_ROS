@@ -356,8 +356,8 @@ if __name__ == "__main__":
     obj2_to_obj3.header.stamp = rospy.Time.now()
     obj2_to_obj3.header.frame_id = "object_location"
     obj2_to_obj3.child_frame_id = "object_location4"
-    obj2_to_obj3.transform.translation.x = -100
-    obj2_to_obj3.transform.translation.y = -180
+    obj2_to_obj3.transform.translation.x = 0
+    obj2_to_obj3.transform.translation.y = 100
     obj2_to_obj3.transform.translation.z = -70
     # quat = tf.transformations.quaternion_from_euler(
     #            86.1037342411,85.5429655101,-74.7943630375+360)
