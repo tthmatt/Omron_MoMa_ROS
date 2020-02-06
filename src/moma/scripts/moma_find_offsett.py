@@ -88,12 +88,12 @@ if __name__ == "__main__":
     print "tm moving to pick location to scan tm landmark"
     try:
         goal = ActionGoal()
-        goal.goal_goal1 = 373.52
-        goal.goal_goal2 = -165
-        goal.goal_goal3 = 683.37
-        goal.goal_goal4 = -178.86
-        goal.goal_goal5 = 0.57
-        goal.goal_goal6 = 47.18
+        goal.goal_goal1 = 576.27
+        goal.goal_goal2 = -241.48
+        goal.goal_goal3 = 613.98
+        goal.goal_goal4 = -179.85
+        goal.goal_goal5 = -1.43
+        goal.goal_goal6 = -42.93
         result = call_server()
         print 'The result is:', result
     except rospy.ROSInterruptException as e:
@@ -120,11 +120,11 @@ if __name__ == "__main__":
     entry_to_pod.header.frame_id = "base_link"
     entry_to_pod.child_frame_id = "object_location"
     #input values tm supposed to move here
-    entry_to_pod.transform.translation.x = 272.48
-    entry_to_pod.transform.translation.y = -72.62
-    entry_to_pod.transform.translation.z = 629.46
+    entry_to_pod.transform.translation.x = 586.89
+    entry_to_pod.transform.translation.y = -357.94
+    entry_to_pod.transform.translation.z = 570.12
     quat = tf.transformations.quaternion_from_euler(
-               179.78,-0.10,-132.12)
+               -179.40,-2.40,-134.13)
     entry_to_pod.transform.rotation.x = quat[0]
     entry_to_pod.transform.rotation.y = quat[1]
     entry_to_pod.transform.rotation.z = quat[2]
@@ -155,3 +155,5 @@ if __name__ == "__main__":
     print Rx
     print Ry
     print Rz
+
+    stop_program()
