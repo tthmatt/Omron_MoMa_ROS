@@ -84,14 +84,14 @@ if __name__ == "__main__":
     rospy.init_node('moma')
     print "REMEMBER TO PUT TM ARM IN SAFE POSITION"
 
-    # try:
-    #     goal = ActionGoal()
-    #     goal.goal_goal = "pickup"
-    #     result = call_ld_server()
-    #     print 'The result is:', result
-    #     print "ld moved to pickup location"
-    # except rospy.ROSInterruptException as e:
-    #     print 'Something went wrong:', e
+    try:
+        goal = ActionGoal()
+        goal.goal_goal = "pickup"
+        result = call_ld_server()
+        print 'The result is:', result
+        print "ld moved to pickup location"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
 
     start_program()
     from tm_motion.msg import ActionAction, ActionGoal
@@ -475,6 +475,31 @@ if __name__ == "__main__":
         goal.goal_goal4 = 179.07
         goal.goal_goal5 = -0.26
         goal.goal_goal6 = 43.70
+        result = call_server()
+        print 'The result is:', result
+        print "pick object"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    try:
+        goal = ActionGoal()
+        goal.goal_goal = "dropoff"
+        result = call_ld_server()
+        print 'The move to dropoff status is:', result
+        print "ld moved to dropff location"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm lifting up object on ld"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 286.13
+        goal.goal_goal2 = 141.24
+        goal.goal_goal3 = 712.49
+        goal.goal_goal4 = -179.87
+        goal.goal_goal5 = -0.12
+        goal.goal_goal6 = 48.47
         result = call_server()
         print 'The result is:', result
         print "pick object"
