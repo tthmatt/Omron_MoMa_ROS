@@ -75,8 +75,8 @@ def call_server():
 def call_ld_server():
     client = actionlib.SimpleActionClient('goTo', ActionAction)
     client.wait_for_server()
-    client.send_goal_and_wait(goal)
-    client.wait_for_result()
+    client.send_goal(goal, feedback_cb=feedback_cb)
+    client.wait_for_result(rospy.Duration(0))
     result = client.get_result()
     return result
 
@@ -609,5 +609,64 @@ if __name__ == "__main__":
         result = call_server()
         print 'The result is:', result
         print "moved to position to allign to place object"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    roadcaster2 = tf2_ros.StaticTransformBroadcaster()
+    obj1_to_obj2 = geometry_msgs.msg.TransformStamped()
+    obj1_to_obj2.header.stamp = rospy.Time.now()
+    obj1_to_obj2.header.frame_id = "object_location"
+    obj1_to_obj2.child_frame_id = "object_location2"
+    obj1_to_obj2.transform.translation.x = 0
+    obj1_to_obj2.transform.translation.y = 0
+    obj1_to_obj2.transform.translation.z = 70
+    quat = tf.transformations.quaternion_from_euler(
+               0,0,0)
+    obj1_to_obj2.transform.rotation.x = quat[0]
+    obj1_to_obj2.transform.rotation.y = quat[1]
+    obj1_to_obj2.transform.rotation.z = quat[2]
+    obj1_to_obj2.transform.rotation.w = quat[3]
+    broadcaster2.sendTransform(obj1_to_obj2)
+
+    while not rospy.is_shutdown():
+        try:
+            trans2 = tfBuffer.lookup_transform('base_link', 'object_location2', rospy.Time())
+            print "object_location2 wrt base_link:"
+            print trans2.transform
+            break
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException) as e:
+            rate.sleep()
+            print e
+            print "waiting"
+            continue
+    quaternion = (
+    trans2.transform.rotation.x,
+    trans2.transform.rotation.y,
+    trans2.transform.rotation.z,
+    trans2.transform.rotation.w)
+    euler = tf.transformations.euler_from_quaternion(quaternion)
+    Rx = math.degrees(euler[0])
+    Ry = math.degrees(euler[1])
+    Rz = math.degrees(euler[2])
+    print trans2.transform.translation.x
+    print trans2.transform.translation.y
+    print trans2.transform.translation.z
+    print Rx
+    print Ry
+    print Rz
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm moving down to place object"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = trans2.transform.translation.x
+        goal.goal_goal2 = trans2.transform.translation.y
+        goal.goal_goal3 = trans2.transform.translation.z
+        goal.goal_goal4 = Rx
+        goal.goal_goal5 = Ry
+        goal.goal_goal6 = Rz
+        result = call_server()
+        print 'The result is:', result
+        print "moved to position to pick object"
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
