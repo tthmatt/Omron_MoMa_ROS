@@ -88,12 +88,12 @@ if __name__ == "__main__":
     print "tm moving to pick location to scan tm landmark"
     try:
         goal = ActionGoal()
-        goal.goal_goal1 = 440.52
-        goal.goal_goal2 = 362.69
-        goal.goal_goal3 = 706.25
-        goal.goal_goal4 = 178.59
-        goal.goal_goal5 = 0.93
-        goal.goal_goal6 = 135.04
+        goal.goal_goal1 = 373.52
+        goal.goal_goal2 = -165
+        goal.goal_goal3 = 683.37
+        goal.goal_goal4 = -178.86
+        goal.goal_goal5 = 0.57
+        goal.goal_goal6 = 47.18
         result = call_server()
         print 'The result is:', result
     except rospy.ROSInterruptException as e:
@@ -113,17 +113,18 @@ if __name__ == "__main__":
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             rate.sleep()
             continue
-    #input values to move to here
+    #input values tm supposed to move here
     broadcaster3 = tf2_ros.StaticTransformBroadcaster()
     entry_to_pod = geometry_msgs.msg.TransformStamped()
     entry_to_pod.header.stamp = rospy.Time.now()
     entry_to_pod.header.frame_id = "base_link"
     entry_to_pod.child_frame_id = "object_location"
-    entry_to_pod.transform.translation.x = 273.51
-    entry_to_pod.transform.translation.y = 295.19
-    entry_to_pod.transform.translation.z = 647.21
+    #input values tm supposed to move here
+    entry_to_pod.transform.translation.x = 272.48
+    entry_to_pod.transform.translation.y = -72.62
+    entry_to_pod.transform.translation.z = 629.46
     quat = tf.transformations.quaternion_from_euler(
-               179.11,-2.44,-41.33)
+               179.78,-0.10,-132.12)
     entry_to_pod.transform.rotation.x = quat[0]
     entry_to_pod.transform.rotation.y = quat[1]
     entry_to_pod.transform.rotation.z = quat[2]
@@ -133,7 +134,7 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
         try:
             trans = tfBuffer.lookup_transform('landmark_location', 'object_location', rospy.Time())
-            print "object_location wrt landmark_location"
+            print "object_location wrt landmark_location(offset)"
             print trans.transform
             break
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
