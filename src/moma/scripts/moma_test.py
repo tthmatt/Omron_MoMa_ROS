@@ -84,14 +84,14 @@ if __name__ == "__main__":
     rospy.init_node('moma')
     print "REMEMBER TO PUT TM ARM IN SAFE POSITION"
 
-    # try:
-    #     goal = ActionGoal()
-    #     goal.goal_goal = "pickup"
-    #     result = call_ld_server()
-    #     print 'The result is:', result
-    #     print "ld moved to pickup location"
-    # except rospy.ROSInterruptException as e:
-    #     print 'Something went wrong:', e
+    try:
+        goal = ActionGoal()
+        goal.goal_goal = "pickup"
+        result = call_ld_server()
+        print 'The result is:', result
+        print "ld moved to pickup location"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
 
     start_program()
     from tm_motion.msg import ActionAction, ActionGoal
