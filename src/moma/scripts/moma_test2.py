@@ -244,7 +244,7 @@ if __name__ == "__main__":
     obj1_to_obj2.header.frame_id = "object_location"
     obj1_to_obj2.child_frame_id = "object_location2"
     obj1_to_obj2.transform.translation.x = 0
-    obj1_to_obj2.transform.translation.y = -180
+    obj1_to_obj2.transform.translation.y = -200 #move in to pick offset
     obj1_to_obj2.transform.translation.z = 0
     # quat = tf.transformations.quaternion_from_euler(
     #            86.1037342411,85.5429655101,-74.7943630375+360)
@@ -311,8 +311,8 @@ if __name__ == "__main__":
     obj2_to_obj3.header.frame_id = "object_location"
     obj2_to_obj3.child_frame_id = "object_location3"
     obj2_to_obj3.transform.translation.x = 0
-    obj2_to_obj3.transform.translation.y = -180
-    obj2_to_obj3.transform.translation.z = -70
+    obj2_to_obj3.transform.translation.y = -200
+    obj2_to_obj3.transform.translation.z = -90
     # quat = tf.transformations.quaternion_from_euler(
     #            86.1037342411,85.5429655101,-74.7943630375+360)
     quat = tf.transformations.quaternion_from_euler(
@@ -375,8 +375,8 @@ if __name__ == "__main__":
     obj2_to_obj3.header.frame_id = "object_location"
     obj2_to_obj3.child_frame_id = "object_location4"
     obj2_to_obj3.transform.translation.x = 0
-    obj2_to_obj3.transform.translation.y = 100
-    obj2_to_obj3.transform.translation.z = -70
+    obj2_to_obj3.transform.translation.y = 150
+    obj2_to_obj3.transform.translation.z = -90
     # quat = tf.transformations.quaternion_from_euler(
     #            86.1037342411,85.5429655101,-74.7943630375+360)
     quat = tf.transformations.quaternion_from_euler(
