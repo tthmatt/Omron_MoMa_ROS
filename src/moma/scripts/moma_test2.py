@@ -91,6 +91,7 @@ if __name__ == "__main__":
         print 'The result is:', result
         print "ld moved to pickup location"
     except rospy.ROSInterruptException as e:
+        exit(0)
         print 'Something went wrong:', e
 
     start_program()
@@ -486,6 +487,7 @@ if __name__ == "__main__":
         print 'The move to dropoff status is:', result
         print "ld moved to dropff location"
     except rospy.ROSInterruptException as e:
+        exit(0)
         print 'Something went wrong:', e
 
 
@@ -729,6 +731,22 @@ if __name__ == "__main__":
         result = call_server()
         print 'The result is:', result
         print "retracted arm"
+    except rospy.ROSInterruptException as e:
+        print 'Something went wrong:', e
+
+    from tm_motion.msg import ActionAction, ActionGoal
+    print "tm rotating to home position"
+    try:
+        goal = ActionGoal()
+        goal.goal_goal1 = 385.87
+        goal.goal_goal2 = 94.79
+        goal.goal_goal3 = 601.79
+        goal.goal_goal4 = -174.87
+        goal.goal_goal5 = -1.66
+        goal.goal_goal6 = -47.14
+        result = call_server()
+        print 'The result is:', result
+        print "tm rotated"
     except rospy.ROSInterruptException as e:
         print 'Something went wrong:', e
 
